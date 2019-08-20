@@ -108,11 +108,12 @@ func (c *Client) buildRequestPath(params map[string]string) *url.URL {
 
 // StockTimeSeriesIntraday queries a stock symbols statistics throughout the day.
 // Data is returned from past to present.
-func (c *Client) StockTimeSeriesIntraday(timeInterval TimeInterval, symbol string) ([]*TimeSeriesValue, error) {
+func (c *Client) StockTimeSeriesIntraday(timeInterval TimeInterval, symbol string, outputSize TimeSeriesOutputSize) ([]*TimeSeriesValue, error) {
 	endpoint := c.buildRequestPath(map[string]string{
-		queryEndpoint: timeSeriesIntraday.keyName(),
-		queryInterval: timeInterval.keyName(),
-		querySymbol:   symbol,
+		queryEndpoint:		timeSeriesIntraday.keyName(),
+		queryInterval:		timeInterval.keyName(),
+		querySymbol:		symbol,
+		queryOutputSize:	string(outputSize),
 	})
 	response, err := c.conn.Request(endpoint)
 	if err != nil {

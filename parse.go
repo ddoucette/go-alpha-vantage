@@ -7,6 +7,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+var location, _ = time.LoadLocation("America/New_York")
+
 // parseFloat parses a float value.
 // An error is returned if the value is not a float value.
 func parseFloat(val string) (float64, error) {
@@ -27,7 +29,7 @@ func parseInt(val string) (int, error) {
 // An error is returned if the value is not in one of the dateFormat formats.
 func parseDate(v string, dateFormat ...string) (time.Time, error) {
 	for _, format := range dateFormat {
-		t, err := time.Parse(format, v)
+		t, err := time.ParseInLocation(format, v, location)
 		if err != nil {
 			continue
 		}
